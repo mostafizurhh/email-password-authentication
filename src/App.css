@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  margin: 20px;
+}
+
+.forms {
+  border: 1 px solid maroon;
+  ;
 }
 
 .App-logo {
@@ -32,6 +38,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
