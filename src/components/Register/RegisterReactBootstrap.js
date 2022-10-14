@@ -6,13 +6,26 @@ import app from '../../firebase/firebase.init';
 
 const auth = getAuth(app);
 const RegisterReactBootstrap = () => {
+    /********************************************************
+     set state for passwordError and successful user creation
+     ********************************************************/
     const [passwordError, setPasswordError] = useState('');
+    const [success, setSuccess] = useState(false);
 
+    /*******************************
+     create form's onSubmit function
+     *******************************/
     const handleRegister = (event) => {
-        event.preventDefault();
+        event.preventDefault(); /* prevent page reload */
+        setSuccess(false); /* prevent showing success msg by default */
+
         const email = event.target.email.value;
         const password = event.target.password.value;
         console.log(email, password);
+
+        /***************************
+         set conditions for password
+         ***************************/
         if (!/(?=.*[a-z])/.test(password)) {
             setPasswordError('Please provide at least 1 lowercase letter')
             return
@@ -33,14 +46,20 @@ const RegisterReactBootstrap = () => {
             setPasswordError('Password length must be at least 8 charecters')
             return
         }
-
+        setPasswordError('');
+        /***************************************
+         create new user with email and password
+         ***************************************/
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                setSuccess(true); /* show success message */
+                event.target.reset(); /* reset input fields */
             })
             .catch(error => {
                 console.error('error: ', error)
+                setPasswordError('email already used')
             })
     }
 
@@ -59,7 +78,11 @@ const RegisterReactBootstrap = () => {
                     <Form.Control type="password" name='password' placeholder="Password" required />
                 </Form.Group>
 
+                {/* show passwordError */}
                 <p className='text-danger'>{passwordError}</p>
+
+                {/* show success message */}
+                {success && <p className='text-success'>Registration Complete</p>}
 
                 <Button variant="primary" type="submit">
                     Register
