@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from 'firebase/auth';
 import app from '../../firebase/firebase.init';
 import { Link } from 'react-router-dom';
 
@@ -20,9 +20,10 @@ const RegisterReactBootstrap = () => {
         event.preventDefault(); /* prevent page reload */
         setSuccess(false); /* prevent showing success msg by default */
 
+        const name = event.target.userName.value
         const email = event.target.email.value;
         const password = event.target.password.value;
-        console.log(email, password);
+        console.log(name, email, password);
 
         /***************************
          set conditions for password
@@ -58,6 +59,8 @@ const RegisterReactBootstrap = () => {
                 setSuccess(true); /* show success message */
                 event.target.reset(); /* reset input fields */
                 verifyEmail();
+                updateUserName(name);
+
             })
             .catch(error => {
                 console.error('error: ', error)
@@ -65,17 +68,39 @@ const RegisterReactBootstrap = () => {
             })
     }
 
+    /********************************
+     update user name in firebase
+     ********************************/
+    const updateUserName = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: name
+        })
+            .then(() => {
+                console.log('name updated')
+            })
+            .catch(error => console.error(error))
+    }
+
+    /********************************
+     send email verification link
+     ********************************/
     const verifyEmail = () => {
         sendEmailVerification(auth.currentUser)
             .then(() => {
                 alert('please check your email and verify your email address')
             })
     }
+
     return (
         <div className='w-50 mx-auto mt-5'>
             {/* for simple form validation use 'required' at the last of the input field */}
             <h3>Please Register!!!!</h3>
             <Form onSubmit={handleRegister}>
+                <Form.Group className="mb-3" controlId="formBasicName">
+                    <Form.Label>UserName</Form.Label>
+                    <Form.Control type="text" name='userName' placeholder="choose a userName" required />
+                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" name='email' placeholder="Enter email" required />
@@ -86,16 +111,24 @@ const RegisterReactBootstrap = () => {
                     <Form.Control type="password" name='password' placeholder="Password" required />
                 </Form.Group>
 
-                {/* show passwordError */}
+                {/***************************
+                  show password error message 
+                  ***************************/}
                 <p className='text-danger'>{passwordError}</p>
 
-                {/* show success message */}
+                {/********************* 
+                  show success message 
+                  **********************/}
                 {success && <p className='text-success'>Registration Complete</p>}
 
                 <Button variant="primary" type="submit">
                     Register
                 </Button>
             </Form>
+
+            {/********************* 
+             page toggling message 
+             **********************/}
             <p className='mt-3'><small>Already have an accout? Please <Link to='/login'>Login</Link></small></p>
         </div>
     );

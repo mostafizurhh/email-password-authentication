@@ -37,6 +37,9 @@ import LoginReactBootstrap from './components/Register/LoginReactBootstrap';
 //   console.log(event.target.value)
 // }
 
+/***************************  
+set Register and Login route 
+****************************/
 const router = createBrowserRouter([
   {
     path: '/',

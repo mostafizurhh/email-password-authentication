@@ -8,18 +8,24 @@ import app from '../../firebase/firebase.init';
 const auth = getAuth(app);
 
 const LoginReactBootstrap = () => {
-    const [success, setSuccess] = useState(false)
-    const [loginError, setLoginError] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
+    const [success, setSuccess] = useState(false); /* success state */
+    const [loginError, setLoginError] = useState(false); /* login error state */
+    const [userEmail, setUserEmail] = useState(''); /* reset password state */
 
     const handleRegister = (event) => {
         event.preventDefault();
         setSuccess(false);
         setLoginError(false)
 
+        /***************************  
+        get user email and password 
+        ****************************/
         const email = event.target.email.value
         const password = event.target.password.value
 
+        /***************************  
+         set function to signin 
+         ****************************/
         signInWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const user = result.user;
@@ -33,14 +39,18 @@ const LoginReactBootstrap = () => {
             })
     }
 
-    /* get user email to check and send link to reset password */
+    /*******************************************************  
+     get user email to check and send link to reset password 
+     *******************************************************/
     const handleEmailBlur = (event) => {
         const email = event.target.value
         setUserEmail(email)
         console.log(email)
     }
 
-    /* create forgot password function */
+    /*******************************
+     create forgot password function 
+     *******************************/
     const handleForgotPassword = () => {
         if (!userEmail) {
             alert('Please enter your email address')
@@ -68,17 +78,32 @@ const LoginReactBootstrap = () => {
                     <Form.Control type="password" placeholder="Password" name='password' required />
                 </Form.Group>
 
+                {/*************************** 
+                  show success message 
+                  ***************************/}
+
                 <h6>{success && <p className='text-success'><small>Login Successful</small></p>}</h6>
 
-                <h6>{loginError && <p className='text-danger'><small>Please try again!!</small></p>}</h6>
+                {/*************************** 
+                  show error message 
+                  ***************************/}
+
+                <h6>{loginError && <p className='text-danger'><small>Email or password doesn't match. Please try again!!</small></p>}</h6>
 
 
                 <Button variant="primary" type="submit">
                     Login
                 </Button>
+
+                {/*************************** 
+                  create forgot password link 
+                  ***************************/}
                 <button onClick={handleForgotPassword} type='button'><Link className='ms-3'>Forgot Password?</Link></button>
             </Form>
 
+            {/********************* 
+             page toggling message 
+             **********************/}
             <p className='mt-3'><small>New to our website? Please <Link to='/register'>Register</Link></small></p>
         </div>
     );
