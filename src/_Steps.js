@@ -26,4 +26,9 @@ get changing values from input field when typing
 const handleEmailOnChange = event => {
   console.log(event.target.value)
 }
+
+------------------------
+form data validation
+------------------------
+1. for simple form data validation use 'required' at the last of the input field
 */
