@@ -14,6 +14,7 @@ const LoginReactBootstrap = () => {
     const handleRegister = (event) => {
         event.preventDefault();
         setSuccess(false);
+        setLoginError(false)
 
         const email = event.target.email.value
         const password = event.target.password.value
@@ -45,9 +46,9 @@ const LoginReactBootstrap = () => {
                     <Form.Control type="password" placeholder="Password" name='password' required />
                 </Form.Group>
 
-                <p>{success && <h6 className='text-success'><small>Login Successful</small></h6>}</p>
+                <h6>{success && <p className='text-success'><small>Login Successful</small></p>}</h6>
 
-                <p>{loginError && <h6 className='text-danger'><small>Please try again!!</small></h6>}</p>
+                <h6>{loginError && <p className='text-danger'><small>Please try again!!</small></p>}</h6>
 
 
                 <Button variant="primary" type="submit">
