@@ -1,6 +1,10 @@
 import { getAuth } from 'firebase/auth';
 import './App.css';
 import app from './firebase/firebase.init';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import RegisterReactBootstrap from './components/Register/RegisterReactBootstrap';
+import RegisterBootstarp from './components/Register/RegisterBootstarp';
+import RegisterTailwind from './components/Register/RegisterTailwind';
 
 const auth = getAuth(app);
 
@@ -21,14 +25,27 @@ const handlePasswordOnBlur = event => {
 
 function App() {
   return (
-    <div className='App'>
-      <form onSubmit={handleRegister}>
+    <div>
+
+      {/* simple html */}
+      <form onSubmit={handleRegister} className='mx-auto w-50'>
         <input onChange={handleEmailOnChange} type="email" name="email" id="" placeholder='Enter your email' />
         <br /> <br />
         <input onBlur={handlePasswordOnBlur} type="password" name="password" id="" placeholder='Eter your password' />
         <br /> <br />
         <button type="submit">Register</button>
       </form>
+      {/* React Bootstrap */}
+      <RegisterReactBootstrap
+        handleRegister={handleRegister}
+      ></RegisterReactBootstrap>
+      {/* Bootstrap */}
+      <RegisterBootstarp
+        handleRegister={handleRegister}
+      ></RegisterBootstarp>
+      <RegisterTailwind
+        handleRegister={handleRegister}
+      ></RegisterTailwind>
     </div>
   );
 }
