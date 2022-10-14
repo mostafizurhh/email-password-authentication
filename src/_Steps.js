@@ -27,8 +27,17 @@ const handleEmailOnChange = event => {
   console.log(event.target.value)
 }
 
+-----------------------
+add users to firebase
+-----------------------
+1. go to: https://console.firebase.google.com/
+2. clik > add project > set name > create app > build > authentication > sign-in method > email/password > enable
+
 ------------------------
 form data validation
 ------------------------
 1. for simple form data validation use 'required' at the last of the input field
+2. add states and conditions for password error
+3. add states and conditions for successful user
+4. clear form after successful registration
 */

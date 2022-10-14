@@ -5,41 +5,63 @@ import RegisterBootstarp from './components/Register/RegisterBootstarp';
 import RegisterTailwind from './components/Register/RegisterTailwind';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import app from './firebase/firebase.init';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Main from './layout/Main/Main';
+import LoginReactBootstrap from './components/Register/LoginReactBootstrap';
 
 
-const auth = getAuth(app);
+// const auth = getAuth(app);
+
+// const handleRegister = (event) => {
+//   event.preventDefault();
+//   const email = event.target.email.value;
+//   const password = event.target.password.value;
+//   console.log(email, password);
 
 
+//   createUserWithEmailAndPassword(auth, email, password)
+//     .then(result => {
+//       const user = result.user;
+//       console.log(user)
+//     })
+//     .catch(error => {
+//       console.error('error: ', error)
+//     })
+// }
 
-const handleRegister = (event) => {
-  event.preventDefault();
-  const email = event.target.email.value;
-  const password = event.target.password.value;
-  console.log(email, password);
+// const handleEmailOnChange = event => {
+//   console.log(event.target.value)
+// }
 
+// const handlePasswordOnBlur = event => {
+//   console.log(event.target.value)
+// }
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(result => {
-      const user = result.user;
-      console.log(user)
-    })
-    .catch(error => {
-      console.error('error: ', error)
-    })
-}
-
-const handleEmailOnChange = event => {
-  console.log(event.target.value)
-}
-
-const handlePasswordOnBlur = event => {
-  console.log(event.target.value)
-}
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Main></Main>,
+    children: [
+      {
+        path: '/',
+        element: <RegisterReactBootstrap></RegisterReactBootstrap>
+      },
+      {
+        path: '/register',
+        element: <RegisterReactBootstrap></RegisterReactBootstrap>
+      },
+      {
+        path: '/login',
+        element: <LoginReactBootstrap></LoginReactBootstrap>
+      }
+    ]
+  }
+])
 
 function App() {
   return (
     <div>
-
+      <RouterProvider router={router}></RouterProvider>
       {/*----------------
           simple html
         ----------------- */}
@@ -54,7 +76,7 @@ function App() {
       {/*----------------------
          React Bootstrap
         -----------------------*/}
-      <RegisterReactBootstrap></RegisterReactBootstrap>
+      {/* <RegisterReactBootstrap></RegisterReactBootstrap> */}
 
       {/*------------------------
           Bootstrap
